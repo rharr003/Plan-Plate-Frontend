@@ -1,0 +1,37 @@
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+img {
+  height: auto;
+  max-width: 50%;
+}
+
+.landing-button {
+  flex-basis: 50%;
+}
+
+.landing-button button {
+  border-radius: 10px;
+  border: none;
+  padding: 0px 20px;
+  margin: 15px;
+  font-size: 1.25rem;
+  height: 100%;
+  width: 85%;
+}
+
+button:hover {
+  opacity: 0.75;
+}
+
+@media screen and (max-width: 1200px) {
+  img {
+    max-width: 95%;
+  }
+
+  /* .main-content {
+    margin-top: 50%;
+  } */
+}

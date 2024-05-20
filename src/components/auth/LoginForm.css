@@ -1,0 +1,45 @@
+.login-form {
+  width: 60%;
+  max-width: 60%;
+  text-align: left;
+}
+
+.nice-form-group input {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  font-size: 1.1rem !important;
+}
+
+.login-form-btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .login-form {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .login-form-btn-container {
+    flex-direction: column;
+  }
+}
+
+small {
+  color: #b00020 !important;
+}
+
+.error-container {
+  background-color: blue;
+  width: 50%;
+  height: 20px;
+}
+
+.form-error {
+  color: #b00020;
+  text-align: center;
+  margin: 0px;
+}
