@@ -1,12 +1,14 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
+
+const BASE_URL = process.env.NODE_ENV === "test" ? "" : "http://127.0.0.1:8000";
+
 class Api {
   private static token: string;
-  private static baseUrl: string = "http://127.0.0.1:8000";
   constructor() {}
 
   static async request(endpoint: string, data: {}, method: string = "GET") {
     console.log(`Api call: ${method} ${endpoint} data: ${data}`);
-    const url = `${this.baseUrl}/${endpoint}`;
+    const url = `${BASE_URL}/${endpoint}`;
     const headers = {
       Authorization: `Token ${this.token}`,
     };
@@ -23,12 +25,8 @@ class Api {
     }
   }
 
-  static async login(username: string, password: string) {
-    const result = await this.request(
-      "auth/login",
-      { username, password },
-      "POST"
-    );
+  static async login(data: { username: string; password: string }) {
+    const result = await this.request("auth/login", data, "POST");
 
     //if login succeeds save token to class property for future use
     if (result.status === 200) {

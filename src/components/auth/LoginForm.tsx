@@ -21,10 +21,11 @@ export default function LoginForm() {
       }));
       return;
     }
-    const result = await Api.login(formData.username, formData.password);
+    const result = await Api.login(formData);
     if (result.status === 200) {
       //navigate to homescreen if login is successful
     } else {
+      // set form error message. server returns 400 status for bad credentials
       const message =
         result.status === 400
           ? "Invalid username or password"
@@ -53,9 +54,11 @@ export default function LoginForm() {
         <input
           type="text"
           name="username"
+          //aria label is set to we can find the input element during testing
+          aria-label="username"
           value={formData.username}
           onChange={handleChange}
-        ></input>
+        />
       </div>
       <div className="nice-form-group">
         <label htmlFor="password">Password:</label>
@@ -63,9 +66,10 @@ export default function LoginForm() {
         <input
           type="text"
           name="password"
+          aria-label="password"
           value={formData.password}
           onChange={handleChange}
-        ></input>
+        />
       </div>
       <div className="login-form-btn-container">
         <button type="submit" className="btn-primary">
