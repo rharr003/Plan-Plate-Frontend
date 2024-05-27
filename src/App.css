@@ -31,3 +31,20 @@ body {
   margin: 25px 0px;
   font-size: 1.25rem;
 }
+
+.btn-primary:hover {
+  background-color: #9bd680;
+}
+
+.btn-secondary {
+  background-color: #b3b3b3;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 40px;
+  margin: 25px 0px;
+  font-size: 1.25rem;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d1d1;
+}

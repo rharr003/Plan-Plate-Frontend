@@ -1,24 +1,23 @@
-import "./Login.css";
-import LoginForm from "./LoginForm";
-import LoginImage from "../../assets/loginimage.png";
+import "./Signup.css";
+import SignupImage from "../../../assets/signupimage.png";
+import SignupForm from "./SignupForm";
 
-export default function Login() {
+export default function Signup() {
   return (
     <div className="centered">
       <div className="login-container">
         <img
-          src={LoginImage}
+          src={SignupImage}
           alt="healthy food on plate"
           className="login-image"
         ></img>
         <div className="form-container">
           <div className="heading-container">
             <h1 className="login-heading">
-              Diet planning<br></br>made easy.
+              Welcome<br></br>Lets get started.
             </h1>
           </div>
-          <h2>Plan-Plate Login:</h2>
-          <LoginForm />
+          <SignupForm />
         </div>
       </div>
     </div>

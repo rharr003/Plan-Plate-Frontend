@@ -1,7 +1,12 @@
 import "nice-forms.css";
 import "./LoginForm.css";
 import React, { useState } from "react";
-import Api from "../../PlanPlateApi";
+import Api from "../../../PlanPlateApi";
+import FlexibleInput from "../../ui/FlexibleInput";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../redux/hooks";
+import { setUser } from "../../../redux/userReducer";
+import FormControls from "../form-controls/FormControls";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -10,6 +15,8 @@ export default function LoginForm() {
     password: "",
     general: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
@@ -24,6 +31,8 @@ export default function LoginForm() {
     const result = await Api.login(formData);
     if (result.status === 200) {
       //navigate to homescreen if login is successful
+      dispatch(setUser(result.data));
+      navigate("/");
     } else {
       // set form error message. server returns 400 status for bad credentials
       const message =
@@ -48,36 +57,30 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="login-form">
-      <div className="nice-form-group">
-        <label htmlFor="username">Username:</label>
-        <small>{formErrors.username}</small>
-        <input
-          type="text"
-          name="username"
-          //aria label is set to we can find the input element during testing
-          aria-label="username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="nice-form-group">
-        <label htmlFor="password">Password:</label>
-        <small>{formErrors.password}</small>
-        <input
-          type="text"
-          name="password"
-          aria-label="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="login-form-btn-container">
-        <button type="submit" className="btn-primary">
-          Login
-        </button>
-        <a href="/signup">Create an account</a>
-      </div>
+      {" "}
       {formErrors.general && <p className="form-error">{formErrors.general}</p>}
+      <FlexibleInput
+        handleChange={handleChange}
+        name="username"
+        errorMessage={formErrors.username}
+        labelText="Username:"
+        value={formData.username}
+      />
+      <FlexibleInput
+        handleChange={handleChange}
+        name="password"
+        errorMessage={formErrors.password}
+        labelText="Password:"
+        value={formData.password}
+        type="password"
+      />
+      <FormControls
+        showSecondary={false}
+        primaryOnClick={handleSubmit}
+        primaryDisabled={false}
+        primaryText="Login"
+      />
+      <Link to={"/signup"}>Don't have an account?</Link>
     </form>
   );
 }

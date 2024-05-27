@@ -1,0 +1,11 @@
+.nice-form-group input {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  font-size: 1.1rem !important;
+}
+
+.nice-form-group > input[type="text"]:-webkit-autofill,
+.nice-form-group > input[type="password"]:-webkit-autofill {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
