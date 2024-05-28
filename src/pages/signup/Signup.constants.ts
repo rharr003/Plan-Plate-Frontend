@@ -1,19 +1,21 @@
-import signupFormData from "../../../types/signupFormData";
+import {
+  FormData,
+  Section,
+} from "../../components/form/flexible-form/FlexibleForm.utils";
 
-interface FormValue {
-  value: string | number;
-  type: string;
-  error: string;
-  label: string;
+export const IMAGE_ALT = "people working";
+export const HEADING1 = "Welcome";
+export const HEADING2 = "let's get started.";
+export const SUBHEADING = "Plan-Plate Signup:";
+
+export interface signupFormData {
+  username: string;
+  password: string;
+  date_of_birth: string;
+  heightFt: number;
+  heightIn: number;
+  weight: number;
 }
-
-export interface FormData {
-  [key: string]: {
-    [key: string]: FormValue;
-  };
-}
-
-export type SignUpStage = keyof FormData;
 
 export const initialFormData: FormData = {
   personal: {
@@ -46,7 +48,7 @@ export const initialFormData: FormData = {
   },
 };
 
-export function mergeData(data: FormData): signupFormData {
+export function mergeData(data: FormData) {
   return Object.keys(data).reduce((acc, val) => {
     Object.keys(data[val]).forEach((key) => {
       acc = {
@@ -55,7 +57,7 @@ export function mergeData(data: FormData): signupFormData {
       };
     });
     return acc;
-  }, {}) as signupFormData;
+  }, {});
 }
 
-export const initialSignUpStage: SignUpStage = "personal";
+export const initialSection: Section = "personal";

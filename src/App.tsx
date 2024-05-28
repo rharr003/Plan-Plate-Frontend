@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/auth/login/Login";
-import Signup from "./components/auth/signup/Signup";
+import Login from "./pages/login/Login";
+import Signup from "./pages/signup/Signup";
 import "./App.css";
-import Home from "./components/main/Home";
-import NotFound from "./components/404/NotFound";
+import Home from "./pages/home/Home";
+import NotFound from "./pages/404/NotFound";
 import { useAppSelector } from "./redux/hooks";
 import type { RootState } from "./redux/store";
 

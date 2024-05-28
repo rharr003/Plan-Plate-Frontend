@@ -1,5 +1,6 @@
 import axios from "axios";
-import signupFormData from "./types/signupFormData";
+import { signupFormData } from "./pages/signup/Signup.constants";
+import { LoginFormData } from "./pages/login/Login.constants";
 
 const BASE_URL = process.env.NODE_ENV === "test" ? "" : "http://127.0.0.1:8000";
 
@@ -30,7 +31,7 @@ class Api {
     }
   }
 
-  static async login(data: { username: string; password: string }) {
+  static async login(data: LoginFormData) {
     const result = await this.request("auth/login", data, "POST");
 
     //if login succeeds save token to class property for future use
