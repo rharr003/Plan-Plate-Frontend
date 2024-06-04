@@ -1,0 +1,14 @@
+.modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal-btn {
+  padding: 5px 10px;
+}
+
+.input-container {
+  width: 60%;
+}

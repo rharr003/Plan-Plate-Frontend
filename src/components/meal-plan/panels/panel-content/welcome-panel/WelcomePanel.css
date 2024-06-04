@@ -1,0 +1,10 @@
+#add-new-plan-btn {
+  border: none;
+  background-color: #b3b3b3;
+  font-size: 1rem;
+  height: 100%;
+  flex: 1;
+}
+#add-new-plan-btn:hover {
+  color: #4a663d;
+}

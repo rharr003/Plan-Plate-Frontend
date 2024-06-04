@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "./store";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserState {
   id: number | null;
@@ -29,7 +28,16 @@ export const userSlice = createSlice({
         ...action.payload,
       };
     },
-    resetUser: () => initialState,
+    resetUser: () => {
+      return {
+        id: null,
+        username: null,
+        height: 0,
+        weight: 0,
+        date_of_birth: "",
+        email: "",
+      };
+    },
   },
 });
 

@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background-color: #b3b3b3;
+  background-color: #b3b3b3 !important;
   height: 100%;
 }
 #root {
@@ -47,4 +47,18 @@ body {
 
 .btn-secondary:hover {
   background-color: #d1d1d1;
+}
+
+.btn-danger {
+  background-color: #ff0000;
+  color: #ffffff;
+  border-radius: 10px;
+  border: none;
+  padding: 10px 40px;
+  margin: 25px 0px;
+  font-size: 1.25rem;
+}
+
+.btn-danger:hover {
+  background-color: #fd5959;
 }

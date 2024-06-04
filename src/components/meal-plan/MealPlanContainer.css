@@ -1,0 +1,15 @@
+.tab-container {
+  height: 100%;
+  margin-top: 20px;
+}
+
+.tab-header {
+  margin-bottom: 0px;
+  padding-left: 0px;
+}
+
+.react-tabs__tab-panel {
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  height: 100%;
+}
