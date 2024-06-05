@@ -12,8 +12,8 @@ import { useAppDispatch } from "./redux/hooks";
 import { resetUser, setUser } from "./redux/userReducer";
 import ProtectedRoutes from "./components/protected-route/ProtectedRoutes";
 import MainNavigation from "./components/navbar/MainNavigation";
-import Logout from "./pages/logout/Logout";
 import { useNavigate } from "react-router-dom";
+import ModalManager from "./components/app-modals/ModalManager";
 
 function App() {
   const user = useAppSelector((state) => state.user);
@@ -28,9 +28,9 @@ function App() {
         Api.token = token as string;
         const { data: user } = await Api.fetchUser();
         dispatch(setUser(user));
-        setLoading(false);
         navigate("/");
       }
+      setLoading(false);
     }
 
     loadSavedUser();
@@ -49,11 +49,11 @@ function App() {
 
   return (
     <>
+      <ModalManager />
       {user.username && <MainNavigation logout={logout} />}
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Home />} />
-          <Route path="/logout" element={<Logout />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

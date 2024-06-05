@@ -6,12 +6,13 @@ export default function CenteredModal(props: CenteredModalProps) {
   return (
     <Modal
       isOpen={props.showModal}
+      ariaHideApp={false}
       style={{
         ...customStyles,
         content: {
           ...customStyles.content,
-          width: props.width,
-          height: props.height,
+          width: props.width ? props.width : "50%",
+          height: props.height ? props.height : "50%",
         },
       }}
     >

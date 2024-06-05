@@ -2,6 +2,7 @@ import axios from "axios";
 import { signupFormData } from "./pages/signup/Signup.constants";
 import { LoginFormData } from "./pages/login/Login.constants";
 import { fetchMealPlansReturn } from "./types/meal-plans/apiReturnTypes";
+import { deleteMealPlan } from "./redux/mealPlanReducer";
 
 const BASE_URL = process.env.NODE_ENV === "test" ? "" : "http://127.0.0.1:8000";
 
@@ -14,18 +15,32 @@ class Api {
     data: {} = {},
     method: string = "GET"
   ) {
-    console.log(`Api call: ${method} ${endpoint} data: ${data}`);
+    // console.log(`Api call: ${method} ${endpoint} data: ${data}`);
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
       Authorization: `Token ${this.token}`,
+      "Content-Type": "application/json",
+    };
+
+    const options = {
+      method,
+      headers,
+      body: method === "GET" ? undefined : JSON.stringify(data),
     };
     try {
-      return await axios({
-        url,
-        method,
-        data,
-        headers,
-      });
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const status = response.status;
+      const data = await response.json();
+      return { data, status };
+      // return await axios({
+      //   url,
+      //   method,
+      //   data,
+      //   headers,
+      // });
     } catch (err: any) {
       console.error("Api error:", err.message);
       return err.response;
@@ -34,7 +49,6 @@ class Api {
 
   static async login(data: LoginFormData) {
     const result = await this.request("auth/login", data, "POST");
-
     //if login succeeds save token to class property for future use
     if (result.status === 200) {
       this.token = result.data.token;
@@ -57,12 +71,15 @@ class Api {
   }
 
   static async fetchUser() {
-    return await this.request("auth/user");
+    const result = await this.request("auth/user");
+    return result;
   }
 
   static async fetchMealPlans(): Promise<fetchMealPlansReturn> {
     const result = await this.request("mealplans/", {}, "GET");
-    return result.data;
+    //added the below due to some issues getting the mock server to actually return anything
+    console.log(result.data);
+    return result.data || { active: null, inactive: [] };
   }
 
   static async createMealPlan(data: { name: string; active: boolean }) {
@@ -72,7 +89,25 @@ class Api {
 
   static async fetchMealPlanDetail(mealPlanId: number) {
     const result = await this.request(`mealplans/detail/${mealPlanId}`);
-    console.log(result);
+    return result;
+  }
+
+  static async deleteMealPlan(mealPlanId: number) {
+    const result = await this.request(
+      "mealplans/",
+      { meal_plan_id: mealPlanId },
+      "DELETE"
+    );
+    return result;
+  }
+
+  static async updateMealPlan(data: {
+    name?: string;
+    active?: boolean;
+    meal_plan_id: number;
+  }) {
+    const result = await this.request("mealplans/", data, "PUT");
+    return result;
   }
 }
 
