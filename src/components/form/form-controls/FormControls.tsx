@@ -6,7 +6,7 @@ export default function FormControls(props: FormControlProps) {
     <div className="signup-form-btn-container">
       {props.showSecondary && (
         <button
-          className="btn-secondary"
+          className="btn btn-normal"
           onClick={props.secondaryOnClick}
           disabled={props.secondaryDisabled}
         >
@@ -14,7 +14,7 @@ export default function FormControls(props: FormControlProps) {
         </button>
       )}
       <button
-        className="btn-primary"
+        className="btn btn-submit"
         onClick={props.primaryOnClick}
         disabled={props.primaryDisabled}
       >

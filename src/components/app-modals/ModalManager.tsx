@@ -26,8 +26,8 @@ export default function ModalManager() {
         <AddEditModalContent
           closeModal={close}
           isEditing={true}
-          mealPlanId={currStackElement.databaseObjectId as number}
-          initialName={currStackElement.contextString}
+          mealPlanId={currStackElement.context?.mealPlanId as number}
+          initialName={currStackElement.context?.mealPlanName}
         />
       );
       break;

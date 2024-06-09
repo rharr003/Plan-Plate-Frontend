@@ -29,18 +29,9 @@ class Api {
     };
     try {
       const response = await fetch(url, options);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
       const status = response.status;
       const data = await response.json();
       return { data, status };
-      // return await axios({
-      //   url,
-      //   method,
-      //   data,
-      //   headers,
-      // });
     } catch (err: any) {
       console.error("Api error:", err.message);
       return err.response;
@@ -78,11 +69,12 @@ class Api {
   static async fetchMealPlans(): Promise<fetchMealPlansReturn> {
     const result = await this.request("mealplans/", {}, "GET");
     //added the below due to some issues getting the mock server to actually return anything
-    console.log(result.data);
-    return result.data || { active: null, inactive: [] };
+
+    return result.data || { plans: [] };
   }
 
   static async createMealPlan(data: { name: string; active: boolean }) {
+    console.log(data);
     const result = await this.request("mealplans/", data, "POST");
     return result;
   }

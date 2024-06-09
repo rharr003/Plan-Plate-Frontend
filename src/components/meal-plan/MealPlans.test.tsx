@@ -12,8 +12,7 @@ const server = setupServer(
   http.get("/mealplans/", () => {
     return HttpResponse.json(
       {
-        active: null,
-        inactive: [],
+        plans: [],
       },
       { status: 200 }
     );

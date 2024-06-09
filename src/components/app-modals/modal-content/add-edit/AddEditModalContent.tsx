@@ -8,14 +8,19 @@ import { AddEditModalContentProps } from "./AddEditModalContent.props";
 
 export default function AddEditModalContent(props: AddEditModalContentProps) {
   const [name, setName] = useState(props.initialName || "");
+  const [makeActive, setMakeActive] = useState(false);
   const dispatch = useAppDispatch();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setName(e.target.value);
+    if (e.target.type === "checkbox") {
+      setMakeActive(e.target.checked);
+    } else {
+      setName(e.target.value);
+    }
   }
 
   async function createMealPlan() {
-    const result = await Api.createMealPlan({ name, active: false });
+    const result = await Api.createMealPlan({ name, active: makeActive });
     if (result.status === 200) {
       dispatch(addMealPlan(result.data["meal-plan"]));
       props.closeModal();
@@ -44,7 +49,7 @@ export default function AddEditModalContent(props: AddEditModalContentProps) {
         <h2>
           {props.isEditing ? "Change Meal Plan Name" : "Create New Meal Plan"}
         </h2>
-        <button onClick={props.closeModal} className="close-modal-btn">
+        <button onClick={props.closeModal} className="btn btn-normal">
           X
         </button>
       </div>
@@ -55,11 +60,14 @@ export default function AddEditModalContent(props: AddEditModalContentProps) {
           labelText="Meal Plan Name:"
           name="meal-plan-name"
         />
+        <label htmlFor="make-active">Set as active meal plan</label>
+        <input type="checkbox" name="make-active" onChange={handleChange} />
       </div>
+
       <button
         disabled={name === ""}
         onClick={props.isEditing ? editMealPlanName : createMealPlan}
-        className="btn-primary"
+        className="btn btn-submit"
       >
         {props.isEditing ? "Save" : "Create"}
       </button>

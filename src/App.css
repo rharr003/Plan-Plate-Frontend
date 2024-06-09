@@ -23,42 +23,58 @@ body {
   height: 100%;
 }
 
-.btn-primary {
-  background-color: #7fb069;
-  border-radius: 10px;
+.btn {
   border: none;
-  padding: 10px 40px;
-  margin: 25px 0px;
-  font-size: 1.25rem;
+  background: none;
+  box-shadow: 1px 1px 2px rgba(21, 21, 21, 0.1);
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-family: "Dosis", sans-serif;
+  margin: 1.5rem 0.5rem;
+  padding: 0.25rem 2rem;
+  transition: all 0.25s ease-in-out;
+}
+.btn:focus,
+.btn:hover {
+  box-shadow: 1px 1px 2px rgba(21, 21, 21, 0.2);
 }
 
-.btn-primary:hover {
-  background-color: #9bd680;
+.btn-normal {
+  background: hsl(0, 0%, 92%);
+  color: hsl(0, 0%, 23%);
 }
-
-.btn-secondary {
-  background-color: #b3b3b3;
-  border-radius: 10px;
-  border: none;
-  padding: 10px 40px;
-  margin: 25px 0px;
-  font-size: 1.25rem;
+.btn-normal:hover {
+  background: hsl(0, 0%, 88%);
 }
-
-.btn-secondary:hover {
-  background-color: #d1d1d1;
+/*** Submit button ***/
+.btn-submit {
+  background: hsl(110, 21%, 93%);
+  color: hsl(141, 100%, 22%);
 }
-
-.btn-danger {
-  background-color: #ff0000;
-  color: #ffffff;
-  border-radius: 10px;
-  border: none;
-  padding: 10px 40px;
-  margin: 25px 0px;
-  font-size: 1.25rem;
+.btn-submit:hover {
+  background: hsl(111, 21%, 86%);
 }
-
-.btn-danger:hover {
-  background-color: #fd5959;
+/*** Info button ***/
+.btn-info {
+  background: hsl(212, 48%, 94%);
+  color: hsl(214, 100%, 44%);
+}
+.btn-info:hover {
+  background: hsl(212, 49%, 88%);
+}
+/*** Warning button ***/
+.btn-warning {
+  background: hsl(39, 100%, 92%);
+  color: hsl(40, 77%, 49%);
+}
+.btn-warning:hover {
+  background: hsl(39, 100%, 88%);
+}
+/*** Delete button ***/
+.btn-delete {
+  background: hsl(0, 50%, 95%);
+  color: hsl(0, 91%, 38%);
+}
+.btn-delete:hover {
+  background: hsl(0, 50%, 90%);
 }

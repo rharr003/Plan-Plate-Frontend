@@ -1,10 +1,6 @@
 import "./WelcomePanel.css";
-import React, { useState } from "react";
-import FlexibleForm from "../../form/flexible-form/FlexibleForm";
-import useForm from "../../../hooks/useForm";
 
 export default function WelcomePanel() {
-  function handleSubmit() {}
   return (
     <div className="welcome-panel">
       <h1>Welcome to Plan-Plate</h1>
