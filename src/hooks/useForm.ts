@@ -15,7 +15,12 @@ export interface FormData {
 
 type FormHookReturn = [
   FormData,
-  (e: React.ChangeEvent<HTMLInputElement>, formStage: keyof FormData) => void,
+  (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
+    formStage: keyof FormData
+  ) => void,
   (formStage: keyof FormData) => boolean,
   (fields: string[], section: string, message: string) => void
 ];
@@ -24,7 +29,9 @@ export default function useForm(initialValues: FormData): FormHookReturn {
   const [data, setData] = useState(initialValues);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>,
     formStage: keyof FormData
   ) {
     const { name, value } = e.target;

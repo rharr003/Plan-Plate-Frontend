@@ -1,6 +1,8 @@
 export type ModalStackElement = {
   type: string;
   context?: ModalContextProvider;
+  height?: string;
+  width?: string;
 };
 
 type ModalContextProvider = {

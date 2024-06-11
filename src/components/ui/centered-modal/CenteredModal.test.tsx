@@ -1,6 +1,6 @@
 import CenteredModal from "./CenteredModal";
 import { render, screen } from "@testing-library/react";
-import AddEditModalContent from "../../app-modals/modal-content/add-edit/AddEditModalContent";
+import AddEditModalContent from "../../app-modals/modal-content/mealplan/AddEditModalContent";
 import { Provider } from "react-redux";
 import { store } from "../../../redux/store";
 test("renders without crashing", () => {

@@ -5,6 +5,7 @@ import Api from "../../../../PlanPlateApi";
 import { useAppDispatch } from "../../../../redux/hooks";
 import { addMealPlan, renameMealPlan } from "../../../../redux/mealPlanReducer";
 import { AddEditModalContentProps } from "./AddEditModalContent.props";
+import ModalHeader from "../shared/ModalHeader";
 
 export default function AddEditModalContent(props: AddEditModalContentProps) {
   const [name, setName] = useState(props.initialName || "");
@@ -33,7 +34,9 @@ export default function AddEditModalContent(props: AddEditModalContentProps) {
     const payload = {
       name,
       meal_plan_id: props.mealPlanId as number,
+      active: makeActive,
     };
+    console.log(payload);
     const result = await Api.updateMealPlan(payload);
     if (result.status === 200) {
       dispatch(renameMealPlan(payload));
@@ -45,14 +48,10 @@ export default function AddEditModalContent(props: AddEditModalContentProps) {
 
   return (
     <div>
-      <div className="modal-header">
-        <h2>
-          {props.isEditing ? "Change Meal Plan Name" : "Create New Meal Plan"}
-        </h2>
-        <button onClick={props.closeModal} className="btn btn-normal">
-          X
-        </button>
-      </div>
+      <ModalHeader
+        title={props.isEditing ? "Edit Meal Plan" : "Create Meal Plan"}
+        closeModal={props.closeModal}
+      />
       <div className="input-container">
         <FlexibleInput
           handleChange={handleChange}

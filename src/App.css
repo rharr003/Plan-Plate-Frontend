@@ -46,6 +46,11 @@ body {
 .btn-normal:hover {
   background: hsl(0, 0%, 88%);
 }
+
+.btn-normal:disabled {
+  background: hsl(0, 0%, 92%);
+  color: hsl(0, 0%, 81%);
+}
 /*** Submit button ***/
 .btn-submit {
   background: hsl(110, 21%, 93%);
@@ -53,6 +58,11 @@ body {
 }
 .btn-submit:hover {
   background: hsl(111, 21%, 86%);
+}
+
+.btn-submit:disabled {
+  background: hsl(110, 21%, 93%);
+  color: hsl(0, 0%, 81%);
 }
 /*** Info button ***/
 .btn-info {
@@ -62,6 +72,11 @@ body {
 .btn-info:hover {
   background: hsl(212, 49%, 88%);
 }
+
+.btn-info:disabled {
+  background: hsl(212, 48%, 94%);
+  color: hsl(0, 0%, 81%);
+}
 /*** Warning button ***/
 .btn-warning {
   background: hsl(39, 100%, 92%);
@@ -70,6 +85,11 @@ body {
 .btn-warning:hover {
   background: hsl(39, 100%, 88%);
 }
+
+.btn-warning:disabled {
+  background: hsl(39, 100%, 92%);
+  color: hsl(0, 0%, 81%);
+}
 /*** Delete button ***/
 .btn-delete {
   background: hsl(0, 50%, 95%);
@@ -77,4 +97,9 @@ body {
 }
 .btn-delete:hover {
   background: hsl(0, 50%, 90%);
+}
+
+.btn-delete:disabled {
+  background: hsl(0, 50%, 95%);
+  color: hsl(0, 0%, 81%);
 }

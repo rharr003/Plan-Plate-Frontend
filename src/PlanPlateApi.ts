@@ -1,8 +1,9 @@
 import axios from "axios";
 import { signupFormData } from "./pages/signup/Signup.constants";
 import { LoginFormData } from "./pages/login/Login.constants";
-import { fetchMealPlansReturn } from "./types/meal-plans/apiReturnTypes";
+import { fetchMealPlansReturn } from "./types/general/apiReturnTypes";
 import { deleteMealPlan } from "./redux/mealPlanReducer";
+import { CreateFoodItemFormData } from "./components/app-modals/modal-content/food-items/CreateFoodItem.contants";
 
 const BASE_URL = process.env.NODE_ENV === "test" ? "" : "http://127.0.0.1:8000";
 
@@ -30,7 +31,12 @@ class Api {
     try {
       const response = await fetch(url, options);
       const status = response.status;
-      const data = await response.json();
+      let data;
+      if (status !== 204) {
+        data = await response.json();
+      } else {
+        data = {};
+      }
       return { data, status };
     } catch (err: any) {
       console.error("Api error:", err.message);
@@ -71,6 +77,30 @@ class Api {
     //added the below due to some issues getting the mock server to actually return anything
 
     return result.data || { plans: [] };
+  }
+
+  static async fetchMeals() {
+    const result = await this.request("meals/");
+    return result;
+  }
+
+  static async fetchFoodItems() {
+    const result = await this.request("fooditems/");
+    return result;
+  }
+
+  static async createFoodItem(data: CreateFoodItemFormData) {
+    const result = await this.request("fooditems/", data, "POST");
+    return result;
+  }
+
+  static async deleteFoodItem(foodItemId: number) {
+    const result = await this.request(
+      "fooditems/",
+      { food_item_id: foodItemId },
+      "DELETE"
+    );
+    return result;
   }
 
   static async createMealPlan(data: { name: string; active: boolean }) {
