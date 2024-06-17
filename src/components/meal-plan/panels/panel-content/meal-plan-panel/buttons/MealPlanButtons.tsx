@@ -35,11 +35,14 @@ export default function MealPlanButtons(props: MealPlanButtonProps) {
     const context = {
       mealPlanId: props.mealPlanId,
       mealPlanName: props.name,
+      isActive: props.isActive,
     };
     dispatch(
       openModal({
         type,
         context,
+        height: "75%",
+        width: "50%",
       })
     );
   }

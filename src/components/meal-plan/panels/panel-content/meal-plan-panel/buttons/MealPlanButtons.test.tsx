@@ -13,5 +13,5 @@ beforeEach(() => {
 
 test("renders without crashing", () => {
   const buttons = screen.getAllByRole("button");
-  expect(buttons.length).toBe(3);
+  expect(buttons.length).toBe(4);
 });

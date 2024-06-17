@@ -1,4 +1,3 @@
-import axios from "axios";
 import { signupFormData } from "./pages/signup/Signup.constants";
 import { LoginFormData } from "./pages/login/Login.constants";
 import { fetchMealPlansReturn } from "./types/general/apiReturnTypes";
@@ -90,7 +89,13 @@ class Api {
   }
 
   static async createFoodItem(data: CreateFoodItemFormData) {
+    console.log(data);
     const result = await this.request("fooditems/", data, "POST");
+    return result;
+  }
+
+  static async updateFoodItem(data: CreateFoodItemFormData) {
+    const result = await this.request("fooditems/", data, "PUT");
     return result;
   }
 
@@ -129,6 +134,65 @@ class Api {
     meal_plan_id: number;
   }) {
     const result = await this.request("mealplans/", data, "PUT");
+    return result;
+  }
+
+  static async createMeal(data: {
+    name: string;
+    servings: { food_item_id: number; serving_multiple: number }[];
+  }) {
+    try {
+      const meal = await this.request(
+        "meals/",
+        { ...data, type: "meal" },
+        "POST"
+      );
+
+      const mealId = meal.data.meal_id;
+      const foodServings = data.servings.map((serving) =>
+        this.request(
+          "foodservings/",
+          {
+            ...serving,
+          },
+          "POST"
+        )
+      );
+
+      const foodServingResults = await Promise.all(foodServings);
+      const mealFoodServings = foodServingResults.map((food_serving, index) =>
+        this.request(
+          `meals/detail/${mealId}`,
+          {
+            index,
+            food_serving_id: food_serving.data.food_serving.id,
+          },
+          "POST"
+        )
+      );
+      await Promise.all(mealFoodServings);
+      return meal;
+    } catch (error) {
+      return { status: 500, data: { error: "Failed to create meal" } };
+    }
+  }
+
+  static async deleteMealItem(mealId: number, index: number) {
+    const result = await this.request(
+      `meals/detail/${mealId}`,
+      { index },
+      "DELETE"
+    );
+    return result;
+  }
+
+  static async fetchMeal(mealId: number) {
+    const result = await this.request(`meals/detail/${mealId}`);
+    return result;
+  }
+
+  static async deleteMeal(mealId: number) {
+    const result = await this.request("meals/", { meal_id: mealId }, "DELETE");
     return result;
   }
 }

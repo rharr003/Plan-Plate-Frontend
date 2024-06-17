@@ -1,0 +1,52 @@
+.header-form {
+  display: flex;
+  align-items: center;
+}
+.header-form h4 {
+  margin-right: 10px;
+}
+.fake-input {
+  display: flex;
+  align-items: center;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+}
+.header-form input[type="number"] {
+  width: 65px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  font-size: 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.header-form input[type="number"]:focus {
+  outline: none;
+}
+
+.header-form select {
+  height: 30px;
+  padding: 0 5px;
+  margin: 0;
+  border: none;
+  border-left: 1px solid #d1d1d1;
+  border-radius: 0 5px 5px 0;
+  background-color: #e7e7e7;
+  font-size: 15px;
+}
+
+/* Hide up and down arrows for number input */
+.header-form input[type="number"]::-webkit-inner-spin-button,
+.header-form input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.header-form input[type="number"] {
+  -moz-appearance: textfield;
+}

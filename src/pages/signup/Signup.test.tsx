@@ -1,4 +1,5 @@
-import { render, screen, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { act } from "react";
 import Signup from "./Signup";
 import { Provider } from "react-redux";
 import { store } from "../../redux/store";

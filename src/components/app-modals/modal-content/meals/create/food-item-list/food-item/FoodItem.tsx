@@ -1,9 +1,9 @@
 import "./FoodItem.css";
 import { FoodItemProps } from "./FoodItem.props";
 import { useState } from "react";
-import Api from "../../../../../../../PlanPlateApi";
 import { useAppDispatch } from "../../../../../../../redux/hooks";
-import { deleteFoodItem } from "../../../../../../../redux/foodItemReducer";
+import { openModal } from "../../../../../../../redux/modalReducer";
+import FoodItemHeader from "./food-item-header/FoodItemHeader";
 
 export default function FoodItem(props: FoodItemProps) {
   const [showDetail, setShowDetail] = useState(false);
@@ -12,45 +12,44 @@ export default function FoodItem(props: FoodItemProps) {
     setShowDetail(!showDetail);
   }
 
-  async function handleDelete() {
-    const result = await Api.deleteFoodItem(props.foodItem.id);
-    if (result.status === 204) {
-      dispatch(deleteFoodItem(props.foodItem.id));
-    } else {
-      alert("Failed to delete food item");
-    }
+  function triggerModal() {
+    const context = { foodItem: props.foodItem };
+    dispatch(openModal({ type: "edit-food-item", context, height: "70%" }));
   }
+
   return (
     <li
       key={props.foodItem.id}
       className={props.selected ? "selected food-item" : "food-item"}
-      onClick={() => props.handleSelectFoodItem(props.foodItem.id)}
     >
-      <div className="food-item-header">
-        <h4>{props.foodItem.name}</h4>
-        <div>
-          <button className="btn btn-warning">Edit</button>
-          <button className="btn btn-delete" onClick={handleDelete}>
-            Delete
-          </button>
-        </div>
-      </div>
+      <FoodItemHeader
+        multiple={props.multiple}
+        foodItem={props.foodItem}
+        onDangerClick={props.onDangerClick}
+        triggerModal={triggerModal}
+        type={props.type}
+        index={props.index}
+        onAddClick={() =>
+          props.onClick(props.foodItem, props.selected as boolean)
+        }
+        selected={props.selected}
+      />
       <div className="macro-container">
-        <p>{props.foodItem.calories} calories</p>
-        <p>{props.foodItem.fat}g fat</p>
-        <p>{props.foodItem.carbohydrates}g carbs</p>
-        <p>{props.foodItem.protein}g protein</p>
+        <p>{props.foodItem.calories * props.multiple} calories</p>
+        <p>{props.foodItem.fat * props.multiple}g fat</p>
+        <p>{props.foodItem.carbohydrates * props.multiple}g carbs</p>
+        <p>{props.foodItem.protein * props.multiple}g protein</p>
         <button onClick={handleDetailClick} className="btn btn-normal">
           {showDetail ? "Hide" : "Show"} detail
         </button>
       </div>
       {showDetail && (
         <div className="micro-container">
-          <p>{props.foodItem.saturated_fat}g saturated fat</p>
-          <p>{props.foodItem.fiber}g fiber</p>
-          <p>{props.foodItem.sugar}g sugar</p>
-          <p>{props.foodItem.sodium}mg sodium</p>
-          <p>{props.foodItem.potassium}mg potassium</p>
+          <p>{props.foodItem.saturated_fat * props.multiple}g saturated fat</p>
+          <p>{props.foodItem.fiber * props.multiple}g fiber</p>
+          <p>{props.foodItem.sugar * props.multiple}g sugar</p>
+          <p>{props.foodItem.sodium * props.multiple}mg sodium</p>
+          <p>{props.foodItem.potassium * props.multiple}mg potassium</p>
         </div>
       )}
     </li>

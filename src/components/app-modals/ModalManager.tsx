@@ -5,6 +5,7 @@ import { closeModal } from "../../redux/modalReducer";
 import AddEditMealContent from "./modal-content/meals/add-edit/AddEditMealContent";
 import CreateMeal from "./modal-content/meals/create/CreateMeal";
 import CreateFoodItem from "./modal-content/food-items/CreateFoodItem";
+import { setFoodItems } from "../../redux/mealReducer";
 
 export default function ModalManager() {
   const modalStack = useAppSelector((state) => state.modals.stack);
@@ -21,7 +22,11 @@ export default function ModalManager() {
   switch (currStackElement?.type) {
     case "add-new":
       ComponentToRender = (
-        <AddEditModalContent closeModal={close} isEditing={false} />
+        <AddEditModalContent
+          closeModal={close}
+          isEditing={false}
+          isActive={false}
+        />
       );
       break;
     case "rename":
@@ -31,6 +36,7 @@ export default function ModalManager() {
           isEditing={true}
           mealPlanId={currStackElement.context?.mealPlanId as number}
           initialName={currStackElement.context?.mealPlanName}
+          isActive={currStackElement.context?.isActive as boolean}
         />
       );
       break;
@@ -44,10 +50,37 @@ export default function ModalManager() {
       );
       break;
     case "create-meal":
-      ComponentToRender = <CreateMeal closeModal={close} />;
+      ComponentToRender = (
+        <CreateMeal
+          closeModal={() => {
+            close();
+            dispatch(setFoodItems([]));
+          }}
+        />
+      );
+      break;
+    case "edit-meal":
+      ComponentToRender = (
+        <CreateMeal
+          closeModal={() => {
+            close();
+            dispatch(setFoodItems([]));
+          }}
+          mealId={currStackElement.context?.mealId}
+          mealName={currStackElement.context?.mealName}
+        />
+      );
       break;
     case "create-food-item":
       ComponentToRender = <CreateFoodItem closeModal={close} />;
+      break;
+    case "edit-food-item":
+      ComponentToRender = (
+        <CreateFoodItem
+          closeModal={close}
+          foodItem={currStackElement.context?.foodItem}
+        />
+      );
       break;
 
     default:

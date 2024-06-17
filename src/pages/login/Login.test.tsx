@@ -6,7 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 
 const server = setupServer(
   http.post("/auth/login", () => {

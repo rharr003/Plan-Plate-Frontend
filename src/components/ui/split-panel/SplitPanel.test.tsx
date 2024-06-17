@@ -1,4 +1,3 @@
-import React from "react";
 import SplitPanel from "./SplitPanel";
 import { render, screen } from "@testing-library/react";
 

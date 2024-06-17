@@ -9,7 +9,7 @@ import ModalHeader from "../shared/ModalHeader";
 
 export default function AddEditModalContent(props: AddEditModalContentProps) {
   const [name, setName] = useState(props.initialName || "");
-  const [makeActive, setMakeActive] = useState(false);
+  const [makeActive, setMakeActive] = useState(props.isActive);
   const dispatch = useAppDispatch();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -59,8 +59,12 @@ export default function AddEditModalContent(props: AddEditModalContentProps) {
           labelText="Meal Plan Name:"
           name="meal-plan-name"
         />
-        <label htmlFor="make-active">Set as active meal plan</label>
-        <input type="checkbox" name="make-active" onChange={handleChange} />
+        {!props.isActive && (
+          <>
+            <label htmlFor="make-active">Set as active meal plan</label>
+            <input type="checkbox" name="make-active" onChange={handleChange} />
+          </>
+        )}
       </div>
 
       <button

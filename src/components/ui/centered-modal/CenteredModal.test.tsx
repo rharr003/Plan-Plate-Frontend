@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import AddEditModalContent from "../../app-modals/modal-content/mealplan/AddEditModalContent";
 import { Provider } from "react-redux";
 import { store } from "../../../redux/store";
+
 test("renders without crashing", () => {
   render(
     <Provider store={store}>
@@ -12,6 +13,6 @@ test("renders without crashing", () => {
     </Provider>
   );
 
-  const title = screen.getByText("Create New Meal Plan");
+  const title = screen.getByText("Create");
   expect(title).toBeInTheDocument();
 });

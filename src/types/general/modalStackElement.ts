@@ -1,3 +1,5 @@
+import { foodItem } from "../food-item/foodItem";
+
 export type ModalStackElement = {
   type: string;
   context?: ModalContextProvider;
@@ -8,9 +10,9 @@ export type ModalStackElement = {
 type ModalContextProvider = {
   mealPlanId?: number;
   mealPlanName?: string;
+  isActive?: boolean;
   mealId?: number;
   mealName?: string;
   foodServingId?: number;
-  foodItemName?: string;
-  foodItemId?: string;
+  foodItem?: foodItem;
 };

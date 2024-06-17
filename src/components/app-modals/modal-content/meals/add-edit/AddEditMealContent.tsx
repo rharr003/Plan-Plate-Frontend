@@ -2,12 +2,15 @@ import "./AddEditMealContent.css";
 import { AddEditMealContentProps } from "./AddEditMealContent.props";
 import { useEffect, useState } from "react";
 import Api from "../../../../../PlanPlateApi";
-import { useAppDispatch } from "../../../../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../../redux/hooks";
 import { openModal } from "../../../../../redux/modalReducer";
 import ModalHeader from "../../shared/ModalHeader";
+import MealListItem from "./meal/MealListItem";
+import { Meal } from "../../../../../types/meal/meal";
+import { setMeals } from "../../../../../redux/mealsListReducer";
 
 export default function AddEditMealContent(props: AddEditMealContentProps) {
-  const [meals, setMeals] = useState([]);
+  const meals = useAppSelector((state) => state.mealsList.meals);
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
 
@@ -26,8 +29,11 @@ export default function AddEditMealContent(props: AddEditMealContentProps) {
   useEffect(() => {
     async function fetch() {
       const result = await Api.fetchMeals();
-      setMeals(result.data);
-      console.log(result.data);
+      if (result.status === 200) {
+        dispatch(setMeals(result.data as Meal[]));
+      } else {
+        alert("There was an issue fetching your meals");
+      }
       setLoading(false);
     }
     fetch();
@@ -44,6 +50,9 @@ export default function AddEditMealContent(props: AddEditMealContentProps) {
         Create new meal
       </button>
       {!meals.length && <p>You haven't created any meals yet</p>}
+      {meals.map((meal) => (
+        <MealListItem key={meal.id} meal={meal} />
+      ))}
     </div>
   );
 }

@@ -4,20 +4,36 @@ import useForm from "../../../../hooks/useForm";
 import {
   initialFormData,
   CreateFoodItemFormData,
+  prePopulatedFormData,
 } from "./CreateFoodItem.contants";
 import Api from "../../../../PlanPlateApi";
 import { mergeData } from "../../../form/flexible-form/FlexibleForm.utils";
 import ModalHeader from "../shared/ModalHeader";
 
 export default function CreateFoodItem(props: CreateFoodItemProps) {
-  const [formData, setFormData, isValid, setErrors] = useForm(initialFormData);
+  const [formData, setFormData, isValid, setErrors] = useForm(
+    props.foodItem ? prePopulatedFormData(props.foodItem) : initialFormData
+  );
   const canSubmit = isValid("main");
+  console.log(props.foodItem);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const result = await Api.createFoodItem(
-      mergeData(formData) as CreateFoodItemFormData
-    );
+
+    let result;
+    if (props.foodItem) {
+      const data = mergeData(formData) as CreateFoodItemFormData;
+
+      result = await Api.updateFoodItem({
+        ...data,
+        food_item_id: props.foodItem.id,
+      });
+      console.log(result.data);
+    } else {
+      result = await Api.createFoodItem(
+        mergeData(formData) as CreateFoodItemFormData
+      );
+    }
     if (result.status === 200) {
       props.closeModal();
     } else {
@@ -26,7 +42,10 @@ export default function CreateFoodItem(props: CreateFoodItemProps) {
   }
   return (
     <div>
-      <ModalHeader title="Create Food Item" closeModal={props.closeModal} />
+      <ModalHeader
+        title={props.foodItem ? "Edit food" : "Add new food"}
+        closeModal={props.closeModal}
+      />
       <form className="create-food-item-form" onSubmit={handleSubmit}>
         {Object.keys(formData.main).map((key) => {
           const { label, error, type, value } = formData.main[key];
@@ -45,11 +64,8 @@ export default function CreateFoodItem(props: CreateFoodItemProps) {
                   <option value="g">g</option>
                   <option value="ml">ml</option>
                   <option value="oz">oz</option>
-                  <option value="fl oz">fl oz</option>
                   <option value="cup">cup</option>
                   <option value="tbsp">tbsp</option>
-                  <option value="tsp">tsp</option>
-                  <option value="whole">whole</option>
                 </select>
               ) : (
                 <input
@@ -64,7 +80,7 @@ export default function CreateFoodItem(props: CreateFoodItemProps) {
           );
         })}
         <button type="submit" disabled={!canSubmit} className="btn btn-submit">
-          Create
+          {props.foodItem ? "Update" : "Create"}
         </button>
       </form>
     </div>

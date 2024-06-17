@@ -5,7 +5,7 @@ import { store } from "../../redux/store";
 import userEvent from "@testing-library/user-event";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 import ModalManager from "../app-modals/ModalManager";
 
 const server = setupServer(
@@ -40,7 +40,7 @@ test("opens add new modal when button clicked", () => {
   act(() => {
     userEvent.click(button);
   });
-  const title = screen.getByText("Create New Meal Plan");
+  const title = screen.getByText("Create");
   expect(title).toBeInTheDocument();
 });
 
