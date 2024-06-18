@@ -1,10 +1,10 @@
 import CenteredModal from "../ui/centered-modal/CenteredModal";
-import AddEditModalContent from "./modal-content/mealplan/AddEditModalContent";
+import ManageMealPlan from "./modal-content/mealplan/manage/ManageMealPlan";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import { closeModal } from "../../redux/modalReducer";
-import AddEditMealContent from "./modal-content/meals/add-edit/AddEditMealContent";
-import CreateMeal from "./modal-content/meals/create/CreateMeal";
-import CreateFoodItem from "./modal-content/food-items/CreateFoodItem";
+import AddMeal from "./modal-content/mealplan/add-meal/AddMeal";
+import ManageMeal from "./modal-content/meal/ManageMeal";
+import ManageFoodItem from "./modal-content/food-item/ManageFoodItem";
 import { setFoodItems } from "../../redux/mealReducer";
 
 export default function ModalManager() {
@@ -22,16 +22,12 @@ export default function ModalManager() {
   switch (currStackElement?.type) {
     case "add-new":
       ComponentToRender = (
-        <AddEditModalContent
-          closeModal={close}
-          isEditing={false}
-          isActive={false}
-        />
+        <ManageMealPlan closeModal={close} isEditing={false} isActive={false} />
       );
       break;
     case "rename":
       ComponentToRender = (
-        <AddEditModalContent
+        <ManageMealPlan
           closeModal={close}
           isEditing={true}
           mealPlanId={currStackElement.context?.mealPlanId as number}
@@ -42,7 +38,7 @@ export default function ModalManager() {
       break;
     case "add-meal":
       ComponentToRender = (
-        <AddEditMealContent
+        <AddMeal
           closeModal={close}
           mealPlanId={currStackElement.context?.mealPlanId as number}
           mealPlanName={currStackElement.context?.mealPlanName as string}
@@ -51,7 +47,7 @@ export default function ModalManager() {
       break;
     case "create-meal":
       ComponentToRender = (
-        <CreateMeal
+        <ManageMeal
           closeModal={() => {
             close();
             dispatch(setFoodItems([]));
@@ -61,7 +57,7 @@ export default function ModalManager() {
       break;
     case "edit-meal":
       ComponentToRender = (
-        <CreateMeal
+        <ManageMeal
           closeModal={() => {
             close();
             dispatch(setFoodItems([]));
@@ -72,11 +68,11 @@ export default function ModalManager() {
       );
       break;
     case "create-food-item":
-      ComponentToRender = <CreateFoodItem closeModal={close} />;
+      ComponentToRender = <ManageFoodItem closeModal={close} />;
       break;
     case "edit-food-item":
       ComponentToRender = (
-        <CreateFoodItem
+        <ManageFoodItem
           closeModal={close}
           foodItem={currStackElement.context?.foodItem}
         />

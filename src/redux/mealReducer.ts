@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { foodItem } from "../types/food-item/foodItem";
-import { stat } from "fs";
+import { FoodItem } from "../types/foodItem";
+import { f } from "msw/lib/core/HttpResponse-B07UKAkU";
 
 type FoodServing = {
+  servingId: number | null;
   foodItemId: number;
   servingMultiple: number;
 };
@@ -10,20 +11,30 @@ type FoodServing = {
 export const mealSlice = createSlice({
   name: "meal",
   initialState: {
-    foodItems: [] as foodItem[],
+    foodItems: [] as FoodItem[],
     servings: [] as FoodServing[],
+    originalServings: [] as FoodServing[],
   },
   reducers: {
     setFoodItems: (state, action) => {
       state.foodItems = action.payload;
       state.servings = action.payload.map((foodServing: FoodServing) => ({
+        servingId: foodServing.servingId,
         foodItemId: foodServing.foodItemId,
         servingMultiple: foodServing.servingMultiple,
       }));
+      state.originalServings = action.payload.map(
+        (foodServing: FoodServing) => ({
+          servingId: foodServing.servingId,
+          foodItemId: foodServing.foodItemId,
+          servingMultiple: foodServing.servingMultiple,
+        })
+      );
     },
     addToMeal: (state, action) => {
       state.foodItems.push(action.payload);
       state.servings.push({
+        servingId: null,
         foodItemId: action.payload.id,
         servingMultiple: 1,
       });

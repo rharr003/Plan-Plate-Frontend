@@ -35,13 +35,14 @@ export default function useForm(initialValues: FormData): FormHookReturn {
     formStage: keyof FormData
   ) {
     const { name, value } = e.target;
+    const newValue = parseFloat(value);
     setData((data) => ({
       ...data,
       [formStage]: {
         ...data[formStage],
         [name]: {
           ...data[formStage][name],
-          value,
+          value: newValue || value,
         },
       },
     }));

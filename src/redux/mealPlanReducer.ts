@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { activeMealPlan } from "../types/meal-plans/activeMealPlan";
-import { inactiveMealPlan } from "../types/meal-plans/inactiveMealPlan";
+import { activeMealPlan } from "../types/activeMealPlan";
+import { inactiveMealPlan } from "../types/inactiveMealPlan";
 
 export const mealPlanSlice = createSlice({
   name: "mealplan",
@@ -73,6 +73,43 @@ export const mealPlanSlice = createSlice({
     selectTab(state, action) {
       state.currTab = action.payload.index;
     },
+
+    addMealToPlan: (state, action) => {
+      state.current!.meals.push(action.payload);
+    },
+    removeMealFromPlan: (state, action) => {
+      state.current!.meals = state.current!.meals.filter(
+        (meal) => meal.id !== action.payload
+      );
+    },
+
+    swapMeal: (state, action) => {
+      const { id } = action.payload;
+      const mealIndex = state.current!.meals.findIndex(
+        (meal) => meal.id === id
+      );
+      state.current!.meals[mealIndex] = action.payload;
+    },
+
+    moveMealUp: (state, action) => {
+      const index = action.payload;
+      if (index === 0) return;
+      const mealsCopy = [...state.current!.meals];
+      const meal = mealsCopy[index];
+      mealsCopy[index] = mealsCopy[index - 1];
+      mealsCopy[index - 1] = meal;
+      state.current!.meals = mealsCopy;
+    },
+
+    moveMealDown: (state, action) => {
+      const index = action.payload;
+      if (index === state.current!.meals.length - 1) return;
+      const mealsCopy = [...state.current!.meals];
+      const meal = mealsCopy[index];
+      mealsCopy[index] = mealsCopy[index + 1];
+      mealsCopy[index + 1] = meal;
+      state.current!.meals = mealsCopy;
+    },
   },
 });
 
@@ -84,5 +121,10 @@ export const {
   selectTab,
   setCurrentMealPlan,
   setActiveMealPlan,
+  addMealToPlan,
+  removeMealFromPlan,
+  moveMealUp,
+  moveMealDown,
+  swapMeal,
 } = mealPlanSlice.actions;
 export default mealPlanSlice.reducer;

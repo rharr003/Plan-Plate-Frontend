@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Meal } from "../types/meal/meal";
+import { Meal } from "../types/meal";
 
 export const mealsListSlice = createSlice({
   name: "mealsList",

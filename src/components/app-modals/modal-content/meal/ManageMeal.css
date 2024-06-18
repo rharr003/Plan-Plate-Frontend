@@ -1,0 +1,17 @@
+.create-meal-modal-body {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
+}
+.food-items-list-container {
+  width: 50%;
+  border-left: 1px solid #e0e0e0;
+  height: 100%;
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.manage-meal-container {
+  height: 85%;
+}

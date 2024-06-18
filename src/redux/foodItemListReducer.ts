@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { foodItem } from "../types/food-item/foodItem";
+import { FoodItem } from "../types/foodItem";
 
 export const foodItemListSlice = createSlice({
   name: "foodItem",
   initialState: {
-    all: [] as foodItem[],
-    filtered: [] as foodItem[],
+    all: [] as FoodItem[],
+    filtered: [] as FoodItem[],
     search: "",
   },
   reducers: {

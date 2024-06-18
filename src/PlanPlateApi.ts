@@ -1,8 +1,8 @@
 import { signupFormData } from "./pages/signup/Signup.constants";
 import { LoginFormData } from "./pages/login/Login.constants";
-import { fetchMealPlansReturn } from "./types/general/apiReturnTypes";
+import { fetchMealPlansReturn } from "./types/apiReturnTypes";
 import { deleteMealPlan } from "./redux/mealPlanReducer";
-import { CreateFoodItemFormData } from "./components/app-modals/modal-content/food-items/CreateFoodItem.contants";
+import { CreateFoodItemFormData } from "./components/app-modals/modal-content/food-item/ManageFoodItem.contants";
 
 const BASE_URL = process.env.NODE_ENV === "test" ? "" : "http://127.0.0.1:8000";
 
@@ -89,8 +89,8 @@ class Api {
   }
 
   static async createFoodItem(data: CreateFoodItemFormData) {
-    console.log(data);
     const result = await this.request("fooditems/", data, "POST");
+    console.log(result);
     return result;
   }
 
@@ -137,6 +137,24 @@ class Api {
     return result;
   }
 
+  static async addMealToPlan(mealPlanId: number, mealId: number) {
+    const result = await this.request(
+      `mealplans/detail/${mealPlanId}`,
+      { meal_id: mealId },
+      "POST"
+    );
+    return result;
+  }
+
+  static async removeMealFromPlan(mealPlanId: number, index: number) {
+    const result = await this.request(
+      `mealplans/detail/${mealPlanId}`,
+      { index },
+      "DELETE"
+    );
+    return result;
+  }
+
   static async createMeal(data: {
     name: string;
     servings: { food_item_id: number; serving_multiple: number }[];
@@ -175,6 +193,72 @@ class Api {
     } catch (error) {
       return { status: 500, data: { error: "Failed to create meal" } };
     }
+  }
+
+  static async updateMeal(data: {
+    name: string;
+    additions: { food_item_id: number; serving_multiple: number }[];
+    edits: { food_serving_id: number; serving_multiple: number }[];
+    meal_id: number;
+  }) {
+    //add food servings to db
+    const foodServings = data.additions.map((serving) =>
+      this.request(
+        "foodservings/",
+        {
+          ...serving,
+        },
+        "POST"
+      )
+    );
+    const foodServingResults = await Promise.all(foodServings);
+    //associate food servings with meal
+    const mealFoodServings = foodServingResults.map((food_serving, index) =>
+      this.request(
+        `meals/detail/${data.meal_id}`,
+        {
+          food_serving_id: food_serving.data.food_serving.id,
+        },
+        "POST"
+      )
+    );
+    await Promise.all(mealFoodServings);
+    //update existing food servings
+    const updatedFoodServings = data.edits.map((serving) =>
+      this.request(
+        "foodservings/",
+        {
+          ...serving,
+        },
+        "PUT"
+      )
+    );
+
+    await Promise.all(updatedFoodServings);
+    const newMeal = await this.fetchMeal(data.meal_id);
+    return newMeal;
+  }
+
+  static async createFoodServing(data: {
+    food_item_id: number;
+    serving_multiple: number;
+  }) {
+    const result = await this.request("foodservings/", data, "POST");
+    return result;
+  }
+
+  static async swapMealPlanMeals(
+    mealPlanId: number,
+    mealIndex: number,
+    swapIndex: number
+  ) {
+    const result = await this.request(
+      `mealplans/detail/${mealPlanId}`,
+      { index: mealIndex, index2: swapIndex },
+      "PUT"
+    );
+    console.log(result.data);
+    return result;
   }
 
   static async deleteMealItem(mealId: number, index: number) {
